@@ -161,21 +161,25 @@ class FastGlobalRegistrationOption:
     iteration_number: int
     maximum_correspondence_distance: float
     maximum_tuple_count: float
+    seed: int
     tuple_scale: float
+    tuple_test: bool
     use_absolute_scale: bool
     @overload
     def __init__(self, other: FastGlobalRegistrationOption) -> None: ...
 
     @overload
     def __init__(
-        self: FastGlobalRegistrationOption,
+        self,
         division_factor: float = 1.4,
         use_absolute_scale: bool = False,
         decrease_mu: bool = False,
         maximum_correspondence_distance: float = 0.025,
         iteration_number: int = 64,
         tuple_scale: float = 0.95,
+        tuple_test: bool = True,
         maximum_tuple_count: int = 1000,
+        seed: Optional[int] = None
     ) -> None: ...
 
 
@@ -394,6 +398,32 @@ def registration_icp(
             array([[1., 0., 0., 0.], [0., 1., 0., 0.], [0., 0., 1., 0.], [0., 0., 0., 1.]])
         estimation_method (open3d.pipelines.registration.TransformationEstimation, optional, default=TransformationEstimationPointToPoint without scaling.): Estimation method. One of (TransformationEstimationPointToPoint, TransformationEstimationPointToPlane, TransformationEstimationForGeneralizedICP, TransformationEstimationForColoredICP)
         criteria (open3d.pipelines.registration.ICPConvergenceCriteria, optional, default=ICPConvergenceCriteria class with relative_fitness=1.000000e-06, relative_rmse=1.000000e-06, and max_iteration=30): Convergence criteria
+
+    Returns:
+        open3d.pipelines.registration.RegistrationResult
+    """
+    ...
+
+
+def registration_fgr_based_on_feature_matching(
+    source: geometry.PointCloud,
+    target: geometry.PointCloud,
+    source_feature: Feature,
+    target_feature: Feature,
+    option: FastGlobalRegistrationOption = FastGlobalRegistrationOption()
+) -> RegistrationResult:
+    """
+    Function for global RANSAC registration based on feature matching.
+
+    Args:
+        source (open3d.geometry.PointCloud): The source point cloud.
+        target (open3d.geometry.PointCloud): The target point cloud.
+        source_feature (open3d.pipelines.registration.Feature): Source point cloud feature.
+        target_feature (open3d.pipelines.registration.Feature): Target point cloud feature.
+        option (open3d.pipelines.registration.FastGlobalRegistrationOption, optional):
+            Registration option Default value: FastGlobalRegistrationOption class with division_factor= tuple_test={} 
+            use_absolute_scale= seed={} decrease_mu=1.4 maximum_correspondence_distance=false iteration_number=true
+            tuple_scale=0.025 maximum_tuple_count=64
 
     Returns:
         open3d.pipelines.registration.RegistrationResult

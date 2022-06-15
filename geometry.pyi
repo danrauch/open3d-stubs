@@ -548,9 +548,9 @@ class TriangleMesh(MeshBase):
         linear_fit: bool = False, n_threads: int = -1
     ) -> Tuple[TriangleMesh, utility.DoubleVector]:
         """
-        Function that computes a triangle mesh from a oriented PointCloud pcd. This implements the Screened Poisson 
-        Reconstruction proposed in Kazhdan and Hoppe, “Screened Poisson Surface Reconstruction”, 2013. This function 
-        uses the original implementation by Kazhdan. See https://github.com/mkazhdan/PoissonRecon
+        Function that computes a triangle mesh from a oriented PointCloud pcd. This implements the Screened Poisson
+        Reconstruction proposed in Kazhdan and Hoppe, “Screened Poisson Surface Reconstruction”, 2013. This function
+        uses the original implementation by Kazhdan. See https://github.com/mkazhdan/PoissonRecon   
 
         Args:
             pcd (open3d.geometry.PointCloud): PointCloud from which the TriangleMesh surface is reconstructed. Has to contain normals.
@@ -562,6 +562,26 @@ class TriangleMesh(MeshBase):
 
         Returns:
             Tuple[open3d.geometry.TriangleMesh, open3d.utility.DoubleVector]
+        """
+        ...
+
+    @classmethod
+    def create_from_point_cloud_ball_pivoting(
+        cls, pcd: PointCloud, radii: utility.DoubleVector
+    ) -> TriangleMesh:
+        """
+        Function that computes a triangle mesh from a oriented PointCloud. This implements the Ball Pivoting algorithm
+        proposed in F. Bernardini et al., “The ball-pivoting algorithm for surface reconstruction”, 1999. The
+        implementation is also based on the algorithms outlined in Digne, “An Analysis and Implementation of a Parallel
+        Ball Pivoting Algorithm”, 2014. The surface reconstruction is done by rolling a ball with a given radius over
+        the point cloud, whenever the ball touches three points a triangle is created.
+
+        Args:
+            pcd (open3d.geometry.PointCloud): PointCloud from which the TriangleMesh surface is reconstructed. Has to contain normals.
+            radii (open3d.utility.DoubleVector): The radii of the ball that are used for the surface reconstruction.
+
+        Returns:
+            open3d.geometry.TriangleMesh
         """
         ...
 
