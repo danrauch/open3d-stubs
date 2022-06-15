@@ -3,6 +3,7 @@ from enum import Enum
 from numpy import float64
 from numpy.typing import NDArray
 
+
 class PinholeCameraIntrinsic:
     height: int
     width: int
@@ -11,6 +12,7 @@ class PinholeCameraIntrinsic:
     def __init__(self) -> None: ...
     @overload
     def __init__(self, other: PinholeCameraIntrinsic) -> None: ...
+
     @overload
     def __init__(
         self, width: int, height: int, fx: float, fy: float, cx: float, cy: float
@@ -21,19 +23,23 @@ class PinholeCameraIntrinsic:
     def get_principal_point(self) -> Tuple[float, float]: ...
     def get_skew(self) -> float: ...
     def is_valid(self) -> bool: ...
+
     def set_intrinsics(
         self, width: int, height: int, fx: float, fy: float, cx: float, cy: float
     ) -> None: ...
+
 
 class PinholeCameraParameters:
     extrinsic: NDArray[float64]
     intrinsic: PinholeCameraIntrinsic
     def __init__(self, *args, **kwargs) -> None: ...
 
+
 class PinholeCameraIntrinsicParameters(Enum):
     Kinect2ColorCameraDefault = ...
     Kinect2DepthCameraDefault = ...
     PrimeSenseDefault = ...
+
 
 class PinholeCameraTrajectory:
     parameters: List[PinholeCameraParameters]

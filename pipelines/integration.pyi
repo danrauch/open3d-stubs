@@ -4,10 +4,12 @@ from numpy import float64
 from numpy.typing import NDArray
 from .. import geometry, camera, utility
 
+
 class TSDFVolumeColorType(Enum):
     Gray32 = ...
     NoColor = ...
     RGB8 = ...
+
 
 class TSDFVolume:
     color_type: TSDFVolumeColorType
@@ -16,6 +18,7 @@ class TSDFVolume:
     def __init__(self, *args, **kwargs) -> None: ...
     def extract_point_cloud(self) -> geometry.PointCloud: ...
     def extract_triangle_mesh(self) -> geometry.TriangleMesh: ...
+
     def integrate(
         self,
         image: geometry.RGBDImage,
@@ -24,9 +27,11 @@ class TSDFVolume:
     ) -> None: ...
     def reset(self) -> None: ...
 
+
 class ScalableTSDFVolume(TSDFVolume):
     @overload
     def __init__(self, other: ScalableTSDFVolume) -> None: ...
+
     @overload
     def __init__(
         self,
@@ -38,11 +43,13 @@ class ScalableTSDFVolume(TSDFVolume):
     ) -> None: ...
     def extract_voxel_point_cloud(self) -> geometry.PointCloud: ...
 
+
 class UniformTSDFVolume(TSDFVolume):
     length: float
     resolution: int
     @overload
     def __init__(self, other: UniformTSDFVolume) -> None: ...
+
     @overload
     def __init__(
         self,
@@ -51,6 +58,7 @@ class UniformTSDFVolume(TSDFVolume):
         sdf_trunc: float,
         color_type: TSDFVolumeColorType,
     ) -> None: ...
+
     @overload
     def __init__(
         self,

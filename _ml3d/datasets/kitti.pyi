@@ -6,10 +6,13 @@ from .base_dataset import BaseDataset
 from .utils import BEVBox3D
 
 log = ...
+
+
 class KITTI(BaseDataset):
     """This class is used to create a dataset based on the KITTI dataset, and
     used in object detection, visualizer, training, or testing.
     """
+
     def __init__(self, dataset_path, name=..., cache_dir=..., use_cache=..., val_split=..., test_result_folder=..., **kwargs) -> None:
         """Initialize the function by passing the dataset and other details.
 
@@ -26,9 +29,9 @@ class KITTI(BaseDataset):
             class: The corresponding class.
         """
         ...
-    
+
     @staticmethod
-    def get_label_to_names(): # -> dict[int, str]:
+    def get_label_to_names():  # -> dict[int, str]:
         """Returns a label to names dictonary object.
 
         Returns:
@@ -36,7 +39,7 @@ class KITTI(BaseDataset):
             names.
         """
         ...
-    
+
     @staticmethod
     def read_lidar(path):
         """Reads lidar data from the path provided.
@@ -45,18 +48,18 @@ class KITTI(BaseDataset):
             A data object with lidar information.
         """
         ...
-    
+
     @staticmethod
-    def read_label(path, calib): # -> list[Unknown]:
+    def read_label(path, calib):  # -> list[Unknown]:
         """Reads labels of bound boxes.
 
         Returns:
             The data objects with bound boxes information.
         """
         ...
-    
+
     @staticmethod
-    def read_calib(path): # -> dict[str, ndarray[Unknown, Unknown]]:
+    def read_calib(path):  # -> dict[str, ndarray[Unknown, Unknown]]:
         """Reads calibiration for the dataset. You can use them to compare
         modeled results to observed results.
 
@@ -64,8 +67,8 @@ class KITTI(BaseDataset):
             The camera and the camera image used in calibration.
         """
         ...
-    
-    def get_split(self, split): # -> KITTISplit:
+
+    def get_split(self, split):  # -> KITTISplit:
         """Returns a dataset split.
 
         Args:
@@ -76,8 +79,8 @@ class KITTI(BaseDataset):
             A dataset split object providing the requested subset of the data.
         """
         ...
-    
-    def get_split_list(self, split): # -> List[str] | List[Unknown]:
+
+    def get_split_list(self, split):  # -> List[str] | List[Unknown]:
         """Returns the list of data splits available.
 
         Args:
@@ -93,8 +96,8 @@ class KITTI(BaseDataset):
             'all'.
         """
         ...
-    
-    def is_tested(self): # -> None:
+
+    def is_tested(self):  # -> None:
         """Checks if a datum in the dataset has been tested.
 
         Args:
@@ -106,8 +109,8 @@ class KITTI(BaseDataset):
             attribute is stored; else, returns false.
         """
         ...
-    
-    def save_test_result(self, results, attrs): # -> None:
+
+    def save_test_result(self, results, attrs):  # -> None:
         """Saves the output of a model.
 
         Args:
@@ -117,39 +120,35 @@ class KITTI(BaseDataset):
             results.
         """
         ...
-    
 
 
 class KITTISplit:
     def __init__(self, dataset, split=...) -> None:
         ...
-    
-    def __len__(self): # -> int:
+
+    def __len__(self):  # -> int:
         ...
-    
-    def get_data(self, idx): # -> dict[str, Unknown]:
+
+    def get_data(self, idx):  # -> dict[str, Unknown]:
         ...
-    
-    def get_attr(self, idx): # -> dict[str, Unknown]:
+
+    def get_attr(self, idx):  # -> dict[str, Unknown]:
         ...
-    
 
 
 class Object3d(BEVBox3D):
     """The class stores details that are object-specific, such as bounding box
     coordinates, occulusion and so on.
     """
+
     def __init__(self, center, size, label, calib=...) -> None:
         ...
-    
-    def get_difficulty(self): # -> Literal[0, 1, 2, -1]:
+
+    def get_difficulty(self):  # -> Literal[0, 1, 2, -1]:
         """The method determines difficulty level of the object, such as Easy,
         Moderate, or Hard.
         """
         ...
-    
-    def to_str(self): # -> str:
+
+    def to_str(self):  # -> str:
         ...
-    
-
-

@@ -7,6 +7,8 @@ from open3d._build_config import _build_config
 
 if not _build_config["BUILD_JUPYTER_EXTENSION"]:
     ...
+
+
 @ipywidgets.register
 class WebVisualizer(ipywidgets.DOMWidget):
     """Open3D Web Visualizer based on WebRTC."""
@@ -19,29 +21,28 @@ class WebVisualizer(ipywidgets.DOMWidget):
     window_uid = ...
     pyjs_channel = ...
     jspy_channel = ...
-    def show(self): # -> None:
+
+    def show(self):  # -> None:
         ...
-    
 
 
 class _AsyncEventLoop:
     class _Task:
         _g_next_id = ...
+
         def __init__(self, f) -> None:
             ...
-        
-    
-    
+
     def __init__(self) -> None:
         ...
-    
+
     def run_sync(self, f):
         ...
-    
 
 
 _async_event_loop = ...
-def draw(geometry=..., title=..., width=..., height=..., actions=..., lookat=..., eye=..., up=..., field_of_view=..., bg_color=..., bg_image=..., show_ui=..., point_size=..., animation_time_step=..., animation_duration=..., rpc_interface=..., on_init=..., on_animation_frame=..., on_animation_tick=...): # -> None:
+
+
+def draw(geometry=..., title=..., width=..., height=..., actions=..., lookat=..., eye=..., up=..., field_of_view=..., bg_color=..., bg_image=..., show_ui=..., point_size=..., animation_time_step=..., animation_duration=..., rpc_interface=..., on_init=..., on_animation_frame=..., on_animation_tick=...):  # -> None:
     """Draw in Jupyter Cell"""
     ...
-

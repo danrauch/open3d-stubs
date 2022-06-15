@@ -3,11 +3,13 @@ from numpy import float64
 from numpy.typing import NDArray
 from .. import geometry, camera, utility
 
+
 class OdometryOption:
     iteration_number_per_pyramid_level: utility.IntVector
     max_depth: float
     max_depth_diff: float
     min_depth: float
+
     def __init__(
         self,
         iteration_number_per_pyramid_level: utility.IntVector = ...,
@@ -16,14 +18,18 @@ class OdometryOption:
         max_depth: float = 4.0
     ) -> None: ...
 
+
 class RGBDOdometryJacobian:
     def __init__(self, *args, **kwargs) -> None: ...
+
 
 class RGBDOdometryJacobianFromColorTerm(RGBDOdometryJacobian):
     def __init__(self, *args, **kwargs) -> None: ...
 
+
 class RGBDOdometryJacobianFromHybridTerm(RGBDOdometryJacobian):
     def __init__(self, *args, **kwargs) -> None: ...
+
 
 def compute_rgbd_odometry(
     rgbd_source: geometry.RGBDImage,

@@ -1,6 +1,7 @@
 from typing import List
 from .. import geometry, camera
 
+
 class NonRigidOptimizerOption:
     def __init__(
         self,
@@ -16,6 +17,7 @@ class NonRigidOptimizerOption:
         debug_output_dir: str = "",
     ) -> None: ...
 
+
 class RigidOptimizerOption:
     def __init__(
         self,
@@ -29,12 +31,14 @@ class RigidOptimizerOption:
         debug_output_dir: str = "",
     ) -> None: ...
 
+
 def run_non_rigid_optimizer(
     arg0: geometry.TriangleMesh,
     arg1: List[geometry.RGBDImage],
     arg2: camera.PinholeCameraTrajectory,
     arg3: NonRigidOptimizerOption,
 ) -> geometry.TriangleMesh: ...
+
 
 def run_rigid_optimizer(
     arg0: geometry.TriangleMesh,

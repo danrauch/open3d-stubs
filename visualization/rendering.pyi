@@ -3,6 +3,7 @@ from numpy import float32
 from numpy.typing import NDArray
 from .. import geometry
 
+
 class MaterialRecord:
     absorption_color: NDArray[float32]
     absorption_distance: float

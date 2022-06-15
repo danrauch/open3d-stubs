@@ -6,6 +6,8 @@ from .utils import BEVBox3D
 from .base_dataset import BaseDataset, BaseDatasetSplit
 
 log = ...
+
+
 class S3DIS(BaseDataset):
     """This class is used to create a dataset based on the S3DIS (Stanford
     Large-Scale 3D Indoor Spaces) dataset, and used in visualizer, training, or
@@ -13,6 +15,7 @@ class S3DIS(BaseDataset):
 
     The S3DIS dataset is best used to train models for building indoors.
     """
+
     def __init__(self, dataset_path, name=..., task=..., cache_dir=..., use_cache=..., class_weights=..., num_points=..., test_area_idx=..., ignored_label_inds=..., ignored_objects=..., test_result_folder=..., **kwargs) -> None:
         """Initialize the function by passing the dataset and other details.
 
@@ -30,9 +33,9 @@ class S3DIS(BaseDataset):
             test_result_folder: The folder where the test results should be stored.
         """
         ...
-    
+
     @staticmethod
-    def get_label_to_names(): # -> dict[int, str]:
+    def get_label_to_names():  # -> dict[int, str]:
         """Returns a label to names dictonary object.
 
         Returns:
@@ -40,8 +43,8 @@ class S3DIS(BaseDataset):
             values are the corresponding names.
         """
         ...
-    
-    def get_split(self, split): # -> S3DISSplit:
+
+    def get_split(self, split):  # -> S3DISSplit:
         """Returns a dataset split.
 
         Args:
@@ -52,24 +55,23 @@ class S3DIS(BaseDataset):
             A dataset split object providing the requested subset of the data.
         """
         ...
-    
-    def get_split_list(self, split): # -> list[str]:
+
+    def get_split_list(self, split):  # -> list[str]:
         ...
-    
-    def is_tested(self, attr): # -> bool:
+
+    def is_tested(self, attr):  # -> bool:
         ...
-    
-    def save_test_result(self, results, attr): # -> None:
+
+    def save_test_result(self, results, attr):  # -> None:
         ...
-    
+
     @staticmethod
-    def create_ply_files(dataset_path, class_names): # -> None:
+    def create_ply_files(dataset_path, class_names):  # -> None:
         ...
-    
+
     @staticmethod
-    def read_bboxes(bboxes, ignored_objects): # -> list[Unknown]:
+    def read_bboxes(bboxes, ignored_objects):  # -> list[Unknown]:
         ...
-    
 
 
 class S3DISSplit(BaseDatasetSplit):
@@ -86,24 +88,22 @@ class S3DISSplit(BaseDatasetSplit):
     Returns:
         A dataset split object providing the requested subset of the data.
     """
+
     def __init__(self, dataset, split=...) -> None:
         ...
-    
-    def __len__(self): # -> int:
+
+    def __len__(self):  # -> int:
         ...
-    
-    def get_data(self, idx): # -> dict[str, Unknown]:
+
+    def get_data(self, idx):  # -> dict[str, Unknown]:
         ...
-    
-    def get_attr(self, idx): # -> dict[str, Unknown]:
+
+    def get_attr(self, idx):  # -> dict[str, Unknown]:
         ...
-    
 
 
 class Object3d(BEVBox3D):
     """Stores object specific details like bbox coordinates."""
+
     def __init__(self, name, center, size, yaw) -> None:
         ...
-    
-
-

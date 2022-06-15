@@ -11,13 +11,16 @@ from typing import (
 )
 from numpy import ArrayLike, ndarray
 
+
 class Blob:
     def __init__(self, *args, **kwargs) -> None: ...
+
 
 class Device:
     class DeviceType(Enum):
         CPU = ...
         CUDA = ...
+
     @overload
     def __init__(self) -> None: ...
     @overload
@@ -27,6 +30,7 @@ class Device:
     def get_id(self) -> int: ...
     def get_type(self) -> DeviceType: ...
 
+
 class DtypeCode(Enum):
     Bool = ...
     Float = ...
@@ -34,6 +38,7 @@ class DtypeCode(Enum):
     Object = ...
     UInt = ...
     Undefined = ...
+
 
 class Dtype:
     Bool: ClassVar[Dtype]
@@ -52,6 +57,7 @@ class Dtype:
     def byte_code(self) -> DtypeCode: ...
     def byte_size(self) -> int: ...
 
+
 # bool = Dtype.Bool, this variable conflict with the builtin bool
 bool8 = Dtype.Bool
 float32 = Dtype.Float32
@@ -65,6 +71,7 @@ uint16 = Dtype.UInt16
 uint32 = Dtype.UInt32
 uint64 = Dtype.UInt64
 undefined = Dtype.Undefined
+
 
 class DynamicSizeVector:
     @overload
@@ -81,6 +88,7 @@ class DynamicSizeVector:
     def pop(self, i: Optional[int] = None) -> Optional[int]: ...
     def remove(self, x: Optional[int]) -> None: ...
 
+
 class SizeVector:
     @overload
     def __init__(self) -> None: ...
@@ -96,6 +104,7 @@ class SizeVector:
     def pop(self, i: Optional[int] = None) -> int: ...
     def remove(self, x: int) -> None: ...
 
+
 class HashMap:
     @overload
     def __init__(
@@ -107,6 +116,7 @@ class HashMap:
         value_element_shape: Iterable,
         device: Device = Device("CPU:0"),
     ) -> None: ...
+
     @overload
     def __init__(
         self,
@@ -142,6 +152,7 @@ class HashMap:
     def value_tensor(self, value_buffer_id: int) -> Tensor: ...
     def value_tensors(self) -> List[Tensor]: ...
 
+
 class HashSet:
     def __init__(
         self,
@@ -166,8 +177,10 @@ class HashSet:
     def size(self) -> int: ...
     def to(self, device: Device, copy: bool = False) -> HashSet: ...
 
+
 class Scalar:
     def __init__(self, v: Union[float, int, bool]) -> None: ...
+
 
 class Tensor:
     @overload
@@ -177,6 +190,7 @@ class Tensor:
         dtype: Optional[Dtype] = None,
         device: Optional[Device] = None,
     ) -> None: ...
+
     @overload
     def __init__(
         self,
@@ -184,6 +198,7 @@ class Tensor:
         dtype: Optional[Dtype] = None,
         device: Optional[Device] = None,
     ) -> None: ...
+
     @overload
     def __init__(
         self,
@@ -196,10 +211,12 @@ class Tensor:
     def add(self, value: Union[Scalar, Tensor]) -> Tensor: ...
     def add_(self, value: Union[Scalar, Tensor]) -> Tensor: ...
     def all(self) -> bool: ...
+
     def allclose(
         self, other: Tensor, rtol: float = 1e-05, atol: float = 1e-08
     ) -> bool: ...
     def any(self) -> bool: ...
+
     @overload
     @classmethod
     def arange(
@@ -208,6 +225,7 @@ class Tensor:
         dtype: Optional[Dtype] = None,
         device: Optional[Device] = None,
     ) -> Tensor: ...
+
     @overload
     @classmethod
     def arange(
@@ -233,6 +251,7 @@ class Tensor:
     def diag(cls, input: Tensor) -> Tensor: ...
     def div(self, value: Union[Scalar, Tensor]) -> Tensor: ...
     def div_(self, value: Union[Scalar, Tensor]) -> Tensor: ...
+
     @classmethod
     def empty(
         cls,
@@ -244,6 +263,7 @@ class Tensor:
     def eq_(self, value: Union[Scalar, Tensor]) -> Tensor: ...
     def exp(self) -> Tensor: ...
     def exp_(self) -> Tensor: ...
+
     @classmethod
     def eye(
         cls, n: int, dtype: Optional[Dtype] = None, device: Optional[Device] = None
@@ -253,6 +273,7 @@ class Tensor:
     def from_dlpack(cls, dlmt) -> Tensor: ...
     @classmethod
     def from_numpy(cls, array: ndarray) -> Tensor: ...
+
     @classmethod
     def full(
         cls,
@@ -267,6 +288,7 @@ class Tensor:
     def gt_(self, value: Union[Scalar, Tensor]) -> Tensor: ...
     def inv(self) -> Tensor: ...
     def is_contiguous(self) -> bool: ...
+
     def isclose(
         self, other: Tensor, rtol: float = 1e-05, atol: float = 1e-08
     ) -> Tensor: ...
@@ -301,6 +323,7 @@ class Tensor:
     @overload
     def to(self, device: Device, copy: bool = False) -> Tensor: ...
     def __getitem__(self, indices: Tensor) -> Tensor: ...
+
 
 def addmm(input: Tensor, A: Tensor, B: Tensor, alpha: float, beta: float) -> Tensor: ...
 def append(self: Tensor, values: Tensor, axis: Optional[int] = None) -> Tensor: ...

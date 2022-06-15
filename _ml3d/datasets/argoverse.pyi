@@ -6,10 +6,13 @@ from .base_dataset import BaseDataset
 from .utils import BEVBox3D
 
 log = ...
+
+
 class Argoverse(BaseDataset):
     """This class is used to create a dataset based on the Agroverse dataset,
     and used in object detection, visualizer, training, or testing.
     """
+
     def __init__(self, dataset_path, info_path=..., name=..., cache_dir=..., use_cache=..., **kwargs) -> None:
         """Initialize the function by passing the dataset and other details.
 
@@ -25,9 +28,9 @@ class Argoverse(BaseDataset):
             class: The corresponding class.
         """
         ...
-    
+
     @staticmethod
-    def get_label_to_names(): # -> dict[int, str]:
+    def get_label_to_names():  # -> dict[int, str]:
         """Returns a label to names dictonary object.
 
         Returns:
@@ -35,26 +38,26 @@ class Argoverse(BaseDataset):
             names.
         """
         ...
-    
+
     @staticmethod
-    def read_lidar(path): # -> ndarray[Unknown, Unknown]:
+    def read_lidar(path):  # -> ndarray[Unknown, Unknown]:
         """Reads lidar data from the path provided.
 
         Returns:
             A data object with lidar information.
         """
         ...
-    
+
     @staticmethod
-    def read_label(bboxes): # -> list[Unknown]:
+    def read_label(bboxes):  # -> list[Unknown]:
         """Reads labels of bound boxes.
 
         Returns:
             The data objects with bound boxes information.
         """
         ...
-    
-    def get_split(self, split): # -> ArgoverseSplit:
+
+    def get_split(self, split):  # -> ArgoverseSplit:
         """Returns a dataset split.
 
         Args:
@@ -65,8 +68,8 @@ class Argoverse(BaseDataset):
             A dataset split object providing the requested subset of the data.
         """
         ...
-    
-    def get_split_list(self, split): # -> Any | dict[Unknown, Unknown]:
+
+    def get_split_list(self, split):  # -> Any | dict[Unknown, Unknown]:
         """Returns a dataset split.
 
         Args:
@@ -82,8 +85,8 @@ class Argoverse(BaseDataset):
             'all'.
         """
         ...
-    
-    def is_tested(self): # -> None:
+
+    def is_tested(self):  # -> None:
         """Checks if a datum in the dataset has been tested.
 
         Args:
@@ -95,8 +98,8 @@ class Argoverse(BaseDataset):
             attribute is stored; else, returns false.
         """
         ...
-    
-    def save_test_result(self): # -> None:
+
+    def save_test_result(self):  # -> None:
         """Saves the output of a model.
 
         Args:
@@ -105,7 +108,6 @@ class Argoverse(BaseDataset):
             attr: The attributes that correspond to the outputs passed in results.
         """
         ...
-    
 
 
 class ArgoverseSplit:
@@ -122,33 +124,31 @@ class ArgoverseSplit:
     Returns:
         A dataset split object providing the requested subset of the data.
     """
+
     def __init__(self, dataset, split=...) -> None:
         ...
-    
-    def __len__(self): # -> int:
+
+    def __len__(self):  # -> int:
         ...
-    
-    def get_data(self, idx): # -> dict[str, Unknown]:
+
+    def get_data(self, idx):  # -> dict[str, Unknown]:
         ...
-    
-    def get_attr(self, idx): # -> dict[str, Unknown]:
+
+    def get_attr(self, idx):  # -> dict[str, Unknown]:
         ...
-    
 
 
 class Object3d(BEVBox3D):
     """The class stores details that are object-specific, such as bounding box
     coordinates.
     """
+
     def __init__(self, center, size, yaw, name, box) -> None:
         ...
-    
+
     def generate_corners3d(self):
         """This generates a Corners 3D representation for the object, and
         returns the corners in 3D, such as (8, 3) corners of a Box3D in camera
         coordinates.
         """
         ...
-    
-
-

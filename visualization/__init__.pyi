@@ -6,11 +6,13 @@ import open3d as o3d
 from .. import geometry, camera
 from . import rendering, gui
 
+
 class SelectedIndex:
     index: int
     order: int
     point: ArrayLike
     def __init__(self, *args, **kwargs) -> None: ...
+
 
 class SelectionPolygonVolume:
     axis_max: float
@@ -19,6 +21,7 @@ class SelectionPolygonVolume:
     orthogonal_axis: str
     def __init__(self, *args, **kwargs): ...
     def crop_point_cloud(self, input: geometry.PointCloud) -> geometry.PointCloud: ...
+
 
 def draw(
     geometry=None,
@@ -42,6 +45,8 @@ def draw(
     on_animation_tick=None,
     non_blocking_and_return_uid=False,
 ) -> None: ...
+
+
 @overload
 def draw_geometries(
     geometry_list: List[geometry.Geometry],
@@ -54,6 +59,8 @@ def draw_geometries(
     mesh_show_wireframe: bool = False,
     mesh_show_back_face: bool = False,
 ) -> None: ...
+
+
 @overload
 def draw_geometries(
     geometry_list: List[geometry.Geometry],
@@ -70,6 +77,8 @@ def draw_geometries(
     mesh_show_wireframe: bool = False,
     mesh_show_back_face: bool = False,
 ) -> None: ...
+
+
 def draw_geometries_with_animation_callback(
     geometry_list: List[geometry.Geometry],
     callback_function: Callable[[Visualizer], bool],
@@ -79,6 +88,8 @@ def draw_geometries_with_animation_callback(
     left: int = 50,
     top: int = 50,
 ) -> None: ...
+
+
 def draw_geometries_with_custom_animation(
     geometry_list: List[geometry.Geometry],
     window_name: str = "Open3D",
@@ -88,6 +99,8 @@ def draw_geometries_with_custom_animation(
     top: int = 50,
     optional_view_trajectory_json_file: str = "",
 ) -> None: ...
+
+
 def draw_geometries_with_editing(
     geometry_list: List[geometry.Geometry],
     window_name: str = "Open3D",
@@ -96,6 +109,8 @@ def draw_geometries_with_editing(
     left: int = 50,
     top: int = 50,
 ) -> None: ...
+
+
 def draw_geometries_with_key_callbacks(
     geometry_list: List[geometry.Geometry],
     key_to_callback: Dict[int, Callable[[Visualizer], bool]],
@@ -105,6 +120,8 @@ def draw_geometries_with_key_callbacks(
     left: int = 50,
     top: int = 50,
 ) -> None: ...
+
+
 def draw_geometries_with_vertex_selection(
     geometry_list: List[geometry.Geometry],
     window_name: str = "Open3D",
@@ -115,12 +132,14 @@ def draw_geometries_with_vertex_selection(
 ) -> None: ...
 def read_selection_polygon_volume(filename: str) -> SelectionPolygonVolume: ...
 
+
 class ExternalVisualizer:
     def __init__(self, address=..., timeout=...) -> None: ...
     def set(self, obj=..., path=..., time=..., layer=..., connection=...) -> bool: ...
     def set_time(self, time): ...
     def set_active_camera(self, path): ...
     def draw(self, geometry=..., *args, **kwargs) -> None: ...
+
 
 class MeshColorOption(Enum):
     Color = ...
@@ -130,14 +149,17 @@ class MeshColorOption(Enum):
     YCoordinate = ...
     ZCoordinate = ...
 
+
 class MeshShadeOption(Enum):
     Color = ...
     Default = ...
+
 
 class PickedPoint:
     coord: NDArray[float64]
     index: int
     def __init__(self) -> None: ...
+
 
 class PointColorOption(Enum):
     Color = ...
@@ -146,6 +168,7 @@ class PointColorOption(Enum):
     XCoordinate = ...
     YCoordinate = ...
     ZCoordinate = ...
+
 
 class RenderOption:
     background_color: NDArray[float64]
@@ -163,18 +186,23 @@ class RenderOption:
     def load_from_json(self, filename: str) -> None: ...
     def save_to_json(self, filename: str) -> None: ...
 
+
 class ViewControl:
     def __init__(self) -> None: ...
+
     def camera_local_rotate(
         self, x: float, y: float, xo: float = 0.0, yo: float = 0.0
     ) -> None: ...
+
     def camera_local_translate(
         self, forward: float, right: float, up: float
     ) -> None: ...
     def change_field_of_view(self, step: float = 0.45) -> None: ...
+
     def convert_from_pinhole_camera_parameters(
         self, parameter: camera.PinholeCameraParameters, allow_arbitrary: bool = False
     ) -> bool: ...
+
     def convert_to_pinhole_camera_parameters(
         self,
     ) -> camera.PinholeCameraParameters: ...
@@ -188,33 +216,40 @@ class ViewControl:
     def set_lookat(self, lookat: NDArray[float64]) -> None: ...
     def set_up(self, up: NDArray[float64]) -> None: ...
     def set_zoom(self, zoom: float) -> None: ...
+
     def translate(
         self, x: float, y: float, xo: float = 0.0, yo: float = 0.0
     ) -> None: ...
     def unset_constant_z_far(self) -> None: ...
     def unset_constant_z_near(self) -> None: ...
 
+
 class Visualizer:
     def __init__(self) -> None: ...
+
     def add_geometry(
         self, geometry: geometry.Geometry, reset_bounding_box: bool = True
     ) -> bool: ...
     def capture_depth_float_buffer(self, do_render: bool = False) -> geometry.Image: ...
+
     def capture_depth_image(
         self, filename: str, do_render: bool = False, depth_scale: float = 1000.0
     ) -> None: ...
+
     def capture_depth_point_cloud(
         self,
         filename: str,
         do_render: bool = False,
         convert_to_world_coordinate: bool = False,
     ) -> None: ...
+
     def capture_screen_float_buffer(
         self, do_render: bool = False
     ) -> geometry.Image: ...
     def capture_screen_image(self, filename: str, do_render: bool = False) -> None: ...
     def clear_geometies(self) -> bool: ...
     def close(self) -> None: ...
+
     def create_window(
         self,
         window_name: str = "Open3D",
@@ -230,9 +265,11 @@ class Visualizer:
     def get_window_name(self) -> str: ...
     def is_full_screen(self) -> bool: ...
     def poll_events(self) -> bool: ...
+
     def register_animation_callback(
         self, callback_func: Callable[[Visualizer], bool]
     ) -> None: ...
+
     def remove_geometry(
         self, geometry: geometry.Geometry, reset_bounding_box: bool = True
     ) -> bool: ...
@@ -243,23 +280,29 @@ class Visualizer:
     def update_geometry(self, geometry: geometry.Geometry) -> bool: ...
     def update_renderer(self) -> None: ...
 
+
 class VisualizerWithEditing(Visualizer):
     @overload
     def __init__(self) -> None: ...
+
     @overload
     def __init__(
         self, voxel_size: float = -1.0, use_dialog: bool = True, directory: str = ""
     ) -> None: ...
     def get_picked_points(self) -> List[int]: ...
 
+
 class VisualizerWithKeyCallback(Visualizer):
     def __init__(self) -> None: ...
+
     def register_key_action_callback(
         self, key: int, callback_func: Callable[[Visualizer, int, int], bool]
     ) -> None: ...
+
     def register_key_callback(
         self, key: int, callback_func: Callable[[Visualizer], bool]
     ) -> None: ...
+
 
 class VisualizerWithVertexSelection(Visualizer):
     def __init__(self) -> None: ...
@@ -269,6 +312,7 @@ class VisualizerWithVertexSelection(Visualizer):
     def register_selection_moved_callback(self, f: Callable[[], None]) -> None: ...
     def register_selection_moving_callback(self, f: Callable[[], None]) -> None: ...
 
+
 class O3DVisualizer(gui.Window):
     class DrawObject:
         geometry: o3d.geometry.Geometry3D
@@ -277,21 +321,26 @@ class O3DVisualizer(gui.Window):
         name: str
         time: float
         def __init__(self, *args, **kwargs) -> None: ...
+
     class Shader(Enum):
         DEPTH = ...
         NORMALS = ...
         STANDARD = ...
         UNLIT = ...
+
     class TickResult(Enum):
         NO_CHANGE = ...
         REDRAW = ...
+
     def __init__(
         self, title: str = "Open3D", width: int = 1024, height: int = 768
     ) -> None: ...
     def add_3d_label(self, pos: NDArray[float32], text: str) -> None: ...
+
     def add_action(
         self, name: str, callback: Callable[[O3DVisualizer], None]
     ) -> None: ...
+
     @overload
     def add_geometry(
         self,
@@ -302,6 +351,7 @@ class O3DVisualizer(gui.Window):
         time: float = 0.0,
         is_visible: bool = True,
     ) -> None: ...
+
     @overload
     def add_geometry(
         self,
@@ -312,6 +362,7 @@ class O3DVisualizer(gui.Window):
         time: float = 0.0,
         is_visible: bool = True,
     ) -> None: ...
+
     @overload
     def add_geometry(
         self,
@@ -332,16 +383,19 @@ class O3DVisualizer(gui.Window):
     def get_geometry(self, name: str) -> DrawObject: ...
     def get_geometry_material(self, name: str) -> rendering.MaterialRecord: ...
     def get_selection_sets(self) -> List[Dict[str, Set[SelectedIndex]]]: ...
+
     def modify_geometry_material(
         self, name: str, material: rendering.MaterialRecord
     ) -> None: ...
     def post_redraw(self) -> None: ...
     def remove_geometry(self, name: str) -> None: ...
     def reset_camera_to_default(self) -> None: ...
+
     def set_background(
         self, bg_color: NDArray[float32], bg_image: Optional[geometry.Image] = None
     ) -> None: ...
     def set_on_close(self, callback: Callable[[], bool]) -> None: ...
+
     @overload
     def setup_camera(
         self,
@@ -350,12 +404,14 @@ class O3DVisualizer(gui.Window):
         eye: NDArray[float32],
         up: NDArray[float32],
     ) -> None: ...
+
     @overload
     def setup_camera(
         self,
         intrinsic: camera.PinholeCameraIntrinsic,
         extrinsic: NDArray[float64],
     ) -> None: ...
+
     @overload
     def setup_camera(
         self,

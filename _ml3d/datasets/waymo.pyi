@@ -6,12 +6,15 @@ from .base_dataset import BaseDataset
 from .utils import BEVBox3D
 
 log = ...
+
+
 class Waymo(BaseDataset):
     """This class is used to create a dataset based on the Waymo 3D dataset, and
     used in object detection, visualizer, training, or testing.
 
     The Waymo 3D dataset is best suited for autonomous driving applications.
     """
+
     def __init__(self, dataset_path, name=..., cache_dir=..., use_cache=..., val_split=..., **kwargs) -> None:
         """Initialize the function by passing the dataset and other details.
 
@@ -26,9 +29,9 @@ class Waymo(BaseDataset):
             class: The corresponding class.
         """
         ...
-    
+
     @staticmethod
-    def get_label_to_names(): # -> dict[int, str]:
+    def get_label_to_names():  # -> dict[int, str]:
         """Returns a label to names dictonary object.
 
         Returns:
@@ -36,7 +39,7 @@ class Waymo(BaseDataset):
             values are the corresponding names.
         """
         ...
-    
+
     @staticmethod
     def read_lidar(path):
         """Reads lidar data from the path provided.
@@ -45,18 +48,18 @@ class Waymo(BaseDataset):
             A data object with lidar information.
         """
         ...
-    
+
     @staticmethod
-    def read_label(path, calib): # -> list[Unknown] | None:
+    def read_label(path, calib):  # -> list[Unknown] | None:
         """Reads labels of bound boxes.
 
         Returns:
             The data objects with bound boxes information.
         """
         ...
-    
+
     @staticmethod
-    def read_calib(path): # -> dict[str, ndarray[Unknown, Unknown]]:
+    def read_calib(path):  # -> dict[str, ndarray[Unknown, Unknown]]:
         """Reads calibiration for the dataset. You can use them to compare
         modeled results to observed results.
 
@@ -64,8 +67,8 @@ class Waymo(BaseDataset):
             The camera and the camera image used in calibration.
         """
         ...
-    
-    def get_split(self, split): # -> WaymoSplit:
+
+    def get_split(self, split):  # -> WaymoSplit:
         """Returns a dataset split.
 
         Args:
@@ -76,8 +79,8 @@ class Waymo(BaseDataset):
             A dataset split object providing the requested subset of the data.
         """
         ...
-    
-    def get_split_list(self, split): # -> List[str] | List[Unknown]:
+
+    def get_split_list(self, split):  # -> List[str] | List[Unknown]:
         """Returns the list of data splits available.
 
         Args:
@@ -93,8 +96,8 @@ class Waymo(BaseDataset):
             'all'.
         """
         ...
-    
-    def is_tested(): # -> None:
+
+    def is_tested():  # -> None:
         """Checks if a datum in the dataset has been tested.
 
         Args:
@@ -105,8 +108,8 @@ class Waymo(BaseDataset):
                 attribute is stored; else, returns false.
         """
         ...
-    
-    def save_test_result(): # -> None:
+
+    def save_test_result():  # -> None:
         """Saves the output of a model.
 
         Args:
@@ -114,43 +117,39 @@ class Waymo(BaseDataset):
             attr: The attributes that correspond to the outputs passed in results.
         """
         ...
-    
 
 
 class WaymoSplit:
     def __init__(self, dataset, split=...) -> None:
         ...
-    
-    def __len__(self): # -> int:
+
+    def __len__(self):  # -> int:
         ...
-    
-    def get_data(self, idx): # -> dict[str, Unknown]:
+
+    def get_data(self, idx):  # -> dict[str, Unknown]:
         ...
-    
-    def get_attr(self, idx): # -> dict[str, Unknown]:
+
+    def get_attr(self, idx):  # -> dict[str, Unknown]:
         ...
-    
 
 
 class Object3d(BEVBox3D):
     """The class stores details that are object-specific, such as bounding box
     coordinates, occlusion and so on.
     """
+
     def __init__(self, center, size, label, calib) -> None:
         ...
-    
-    def get_difficulty(self): # -> Literal[0, 1, 2, -1]:
+
+    def get_difficulty(self):  # -> Literal[0, 1, 2, -1]:
         """The method determines difficulty level of the object, such as Easy,
         Moderate, or Hard.
         """
         ...
-    
-    def to_str(self): # -> str:
+
+    def to_str(self):  # -> str:
         ...
-    
-    def to_kitti_format(self): # -> str:
+
+    def to_kitti_format(self):  # -> str:
         """This method transforms the class to kitti format."""
         ...
-    
-
-
