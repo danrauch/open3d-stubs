@@ -309,9 +309,9 @@ class KDTreeSearchParamRadius(KDTreeSearchParam):
 
 
 class AxisAlignedBoundingBox(Geometry3D):
-    color: NDArray[float64]
-    max_bound: NDArray[float64]
-    min_bound: NDArray[float64]
+    color: NDArray[float64] | ArrayLike
+    max_bound: NDArray[float64] | ArrayLike
+    min_bound: NDArray[float64] | ArrayLike
     @overload
     def __init__(self) -> None: ...
     @overload
@@ -319,7 +319,7 @@ class AxisAlignedBoundingBox(Geometry3D):
 
     @overload
     def __init__(
-        self, min_bound: NDArray[float64], max_bound: NDArray[float64]
+        self, min_bound: NDArray[float64] | ArrayLike, max_bound: NDArray[float64] | ArrayLike
     ) -> None: ...
 
     @classmethod
@@ -536,6 +536,26 @@ class TriangleMesh(MeshBase):
         split: int = 1,
         create_uv_map: bool = False,
     ) -> TriangleMesh: ...
+
+    @classmethod
+    def create_sphere(
+        cls,
+        radius: float = 1.0,
+        resolution: int = 20,
+        create_uv_map: bool = False,
+    ) -> TriangleMesh:
+        """
+        Factory function to create a sphere mesh centered at (0, 0, 0).
+
+        Args:
+            radius (float, optional, default=1.0): The radius of the sphere.
+            resolution (int, optional, default=20): The resolution of the sphere. The longitues will be split into resolution segments (i.e. there are resolution + 1 latitude lines including the north and south pole). The latitudes will be split into `2 * resolution segments (i.e. there are 2 * resolution longitude lines.)
+            create_uv_map (bool, optional, default=False): Add default uv map to the mesh.
+
+        Returns:
+            open3d.geometry.TriangleMesh
+        """
+        ...
 
     @classmethod
     def create_coordinate_frame(

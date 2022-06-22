@@ -1,7 +1,26 @@
-from typing import Dict
+from typing import Dict, List, overload, Union
 from numpy import float32
-from numpy.typing import NDArray
+from numpy.typing import NDArray, ArrayLike
 from .. import geometry
+
+
+class Gradient:
+    mode: MODE
+    points: List[POINT]
+
+    class MODE:
+        GRADIENT: int
+        LUT: int
+
+    class POINT:
+        value: float
+        color: NDArray[float32]
+        def __init__(self, value: float, color: NDArray[float32]) -> None: ...
+
+    @overload
+    def __init__(self, gradient: Gradient) -> None: ...
+    @overload
+    def __init__(self, points: List[POINT]) -> None: ...
 
 
 class MaterialRecord:
@@ -15,7 +34,7 @@ class MaterialRecord:
     base_anisotropy: float
     base_clearcoat: float
     base_clearcoat_roughness: float
-    base_color: NDArray[float32]
+    base_color: Union[NDArray[float32], ArrayLike]
     base_metallic: float
     base_reflectance: float
     base_roughness: float

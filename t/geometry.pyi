@@ -1,5 +1,11 @@
+from __future__ import annotations
+
 from typing import Iterable, Optional, Sequence, overload, Tuple, Dict, Iterator, Union
 from enum import Enum
+from numpy import Inf
+from numpy.typing import ArrayLike
+
+import open3d
 
 from .. import core
 from .. import geometry
@@ -345,3 +351,180 @@ class VoxelBlockGrid:
     def voxel_indices(self, buf_indices: core.Tensor) -> core.Tensor: ...
     @overload
     def voxel_indices(self) -> core.Tensor: ...
+
+
+class RaycastingScene:
+    @overload
+    def add_triangles(self, mesh: TriangleMesh) -> int:
+        """
+        Add a triangle mesh to the scene.
+
+        Args:
+            mesh (open3d.t.geometry.TriangleMesh): A triangle mesh.
+
+        Returns:
+            The geometry ID of the added mesh.
+        """
+        ...
+
+    @overload
+    def add_triangles(self, vertex_positions: core.Tensor, triangle_indices: core.Tensor) -> int:
+        """
+        Add a triangle mesh to the scene.
+
+        Args:
+            vertices (open3d.core.Tensor): Vertices as Tensor of dim {N,3} and dtype Float32.
+            triangles (open3d.core.Tensor): Triangles as Tensor of dim {M,3} and dtype UInt32.
+
+        Returns:
+            The geometry ID of the added mesh.
+        """
+        ...
+
+    def cast_rays(self, rays: core.Tensor, nthreads: int = 0) -> dict[str, core.Tensor]:
+        """
+        Computes the first intersection of the rays with the scene.
+
+        Args:
+            rays (open3d.core.Tensor): A tensor with >=2 dims, shape {.., 6}, and Dtype Float32 describing the rays. {..} can be any number of dimensions, e.g., to organize rays for creating an image the shape can be {height, width, 6}. The last dimension must be 6 and has the format [ox, oy, oz, dx, dy, dz] with [ox,oy,oz] as the origin and [dx,dy,dz] as the direction. It is not necessary to normalize the direction but the returned hit distance uses the length of the direction vector as unit.
+            nthreads (int): The number of threads to use. Set to 0 for automatic.
+
+        Returns:
+            A dictionary which contains the following keys
+            t_hit: A tensor with the distance to the first hit. The shape is {..}. If there is no intersection the hit distance is inf.
+            geometry_ids: A tensor with the geometry IDs. The shape is {..}. If there is no intersection the ID is INVALID_ID.
+            primitive_ids: A tensor with the primitive IDs, which corresponds to the triangle index. The shape is {..}. If there is no intersection the ID is INVALID_ID.
+            primitive_uvs: A tensor with the barycentric coordinates of the hit points within the hit triangles. The shape is {.., 2}.
+            primitive_normals: A tensor with the normals of the hit triangles. The shape is {.., 3}.
+        """
+        ...
+
+    def compute_closest_points(self, query_points: core.Tensor, nthreads: int = 0) -> dict[str, core.Tensor]:
+        """
+        Computes the closest points on the surfaces of the scene.
+
+        Args:
+            query_points (open3d.core.Tensor): A tensor with >=2 dims, shape {.., 3}, and Dtype Float32 describing the query points. {..} can be any number of dimensions, e.g., to organize the query_point to create a 3D grid the shape can be {depth, height, width, 3}. The last dimension must be 3 and has the format [x, y, z].
+            nthreads (int): The number of threads to use. Set to 0 for automatic.
+
+        Returns:
+            The returned dictionary contains
+            points: A tensor with the closest surface points. The shape is {..}.
+            geometry_ids: A tensor with the geometry IDs. The shape is {..}.
+            primitive_ids: A tensor with the primitive IDs, which corresponds to the triangle index. The shape is {..}.
+        """
+        ...
+
+    def compute_distance(self, query_points: core.Tensor, nthreads: int = 0) -> core.Tensor:
+        """
+        Computes the distance to the surface of the scene.
+
+        Args:
+            query_points (open3d.core.Tensor): A tensor with >=2 dims, shape {.., 3}, and Dtype Float32 describing the query points. {..} can be any number of dimensions, e.g., to organize the query_point to create a 3D grid the shape can be {depth, height, width, 3}. The last dimension must be 3 and has the format [x, y, z].
+            nthreads (int): The number of threads to use. Set to 0 for automatic.
+
+        Returns:
+            A tensor with the distances to the surface. The shape is {..}.
+        """
+        ...
+
+    def compute_occupancy(self, query_points: core.Tensor, nthreads: int = 0) -> core.Tensor:
+        """
+        Computes the occupancy at the query point positions.
+
+        This function computes whether the query points are inside or outside. The function assumes that all meshes are
+        watertight and that there are no intersections between meshes, i.e., inside and outside must be well defined. 
+        The function determines if a point is inside by counting the intersections of a rays starting at the query points.
+
+        Args:
+            query_points (open3d.core.Tensor): A tensor with >=2 dims, shape {.., 3}, and Dtype Float32 describing the query points. {..} can be any number of dimensions, e.g., to organize the query_point to create a 3D grid the shape can be {depth, height, width, 3}. The last dimension must be 3 and has the format [x, y, z].
+            nthreads (int): The number of threads to use. Set to 0 for automatic.
+
+        Returns:
+            A tensor with the distances to the surface. The shape is {..}.
+        """
+        ...
+
+    def compute_signed_distance(self, query_points: core.Tensor, nthreads: int = 0) -> core.Tensor:
+        """
+        Computes the signed distance to the surface of the scene.
+
+        This function computes the signed distance to the meshes in the scene. The function assumes that all meshes are
+        watertight and that there are no intersections between meshes, i.e., inside and outside must be well defined.
+        The function determines the sign of the distance by counting the intersections of a rays starting at the query points.
+
+        Args:
+            query_points (open3d.core.Tensor): A tensor with >=2 dims, shape {.., 3}, and Dtype Float32 describing the query points. {..} can be any number of dimensions, e.g., to organize the query_point to create a 3D grid the shape can be {depth, height, width, 3}. The last dimension must be 3 and has the format [x, y, z].
+            nthreads (int): The number of threads to use. Set to 0 for automatic.
+
+        Returns:
+            A tensor with the signed distances to the surface. The shape is {..}. Negative distances mean a point is inside a closed surface.
+        """
+        ...
+
+    def count_intersections(self, rays: core.Tensor, nthreads: int = 0) -> core.Tensor:
+        """
+        Computes the number of intersection of the rays with the scene.
+
+        Args:
+            rays (open3d.core.Tensor): A tensor with >=2 dims, shape {.., 6}, and Dtype Float32 describing the rays. {..} can be any number of dimensions, e.g., to organize rays for creating an image the shape can be {height, width, 6}. The last dimension must be 6 and has the format [ox, oy, oz, dx, dy, dz] with [ox,oy,oz] as the origin and [dx,dy,dz] as the direction. It is not necessary to normalize the direction.
+            nthreads (int): The number of threads to use. Set to 0 for automatic.
+
+        Returns:
+            A tensor with the number of intersections. The shape is {..}.
+        """
+        ...
+
+    def test_occlusions(self, rays: core.Tensor, tnear: float = 0.0,
+                        tfar: float = Inf, nthreads: int = 0) -> core.Tensor:
+        """
+        Checks if the rays have any intersection with the scene.
+
+        Args:
+            rays (open3d.core.Tensor): A tensor with >=2 dims, shape {.., 6}, and Dtype Float32 describing the rays. {..} can be any number of dimensions, e.g., to organize rays for creating an image the shape can be {height, width, 6}. The last dimension must be 6 and has the format [ox, oy, oz, dx, dy, dz] with [ox,oy,oz] as the origin and [dx,dy,dz] as the direction. It is not necessary to normalize the direction.
+            tnear (float): The tnear offset for the rays. The default is 0.
+            tfar (float): The tfar value for the ray. The default is infinity.
+            nthreads (int): The number of threads to use. Set to 0 for automatic.
+
+        Returns:
+            A boolean tensor which indicates if the ray is occluded by the scene (true) or not (false).
+        """
+        ...
+
+    @overload
+    @staticmethod
+    def create_rays_pinhole(intrinsic_matrix: core.Tensor, extrinsic_matrix: core.Tensor,
+                            width_px: int, height_px: int) -> core.Tensor:
+        """
+        Creates rays for the given camera parameters.
+
+        Args:
+            intrinsic_matrix (open3d.core.Tensor): The upper triangular intrinsic matrix with shape {3,3}.
+            extrinsic_matrix (open3d.core.Tensor): The 4x4 world to camera SE(3) transformation matrix.
+            width_px (int): The width of the image in pixels.
+            height_px (int): The height of the image in pixels.
+
+        Returns:
+            A tensor of shape {height_px, width_px, 6} with the rays.
+        """
+        ...
+
+    @overload
+    @staticmethod
+    def create_rays_pinhole(fov_deg: float, center: core.Tensor | ArrayLike, eye: core.Tensor | ArrayLike,
+                            up: core.Tensor | ArrayLike, width_px: int, height_px: int) -> core.Tensor:
+        """
+        Creates rays for the given camera parameters.
+
+        Args:
+            fov_deg (float): The horizontal field of view in degree.
+            center (open3d.core.Tensor): The point the camera is looking at with shape {3}.
+            eye (open3d.core.Tensor): The position of the camera with shape {3}.
+            up (open3d.core.Tensor): The up-vector with shape {3}.
+            width_px (int): The width of the image in pixels.
+            height_px (int): The height of the image in pixels.
+
+        Returns:
+            A tensor of shape {height_px, width_px, 6} with the rays.
+        """
+        ...
