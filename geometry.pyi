@@ -180,7 +180,19 @@ class KDTreeFlann:
     ) -> Tuple[int, utility.IntVector, utility.DoubleVector]: ...
     def search_knn_vector_3d(
         self, query: ArrayLike, max_nn: int
-    ) -> Tuple[int, utility.IntVector, utility.DoubleVector]: ...
+    ) -> Tuple[int, utility.IntVector, utility.DoubleVector]: 
+        """
+        Searches N nearest neighbor from tree in reference to anchor point.
+
+        Args:
+            query: anchor point to search from
+            max_nn: number or nearest neighbors to search for (N)
+
+        Returns:
+            Tuple[int, utility.IntVector, utility.DoubleVector] which corresponds to
+            (number of found points, indices of found points, distances to anchor)
+        """
+        ...
     def search_knn_vector_xd(
         self, query: ArrayLike, max_nn: int
     ) -> Tuple[int, utility.IntVector, utility.DoubleVector]: ...
