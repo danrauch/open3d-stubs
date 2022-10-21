@@ -277,7 +277,7 @@ class TransformationEstimation:
         ...
 
     def compute_transformation(self, source: geometry.PointCloud, target: geometry.PointCloud,
-                               corres: utility.Vector2iVector) -> float:
+                               corres: utility.Vector2iVector) -> NDArray[float64]:
         """Compute transformation from source to target point cloud given correspondences."""
         ...
 
@@ -313,7 +313,7 @@ def evaluate_registration(
     source: geometry.PointCloud,
     target: geometry.PointCloud,
     max_correspondence_distance: float,
-    transformation: NDArray[float64]
+    transformation: NDArray[float64] = None
 ) -> RegistrationResult:
     """
     Function for evaluating registration between point clouds.
