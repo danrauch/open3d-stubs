@@ -16,3 +16,7 @@ Put open3d-stubs in the pylance extension stubs folder (Windows default: %USERPR
 ### For VIM/Neovim
 
 For Vim/Neovim users, check [coc-pyright](https://github.com/fannheyward/coc-pyright) for more information.
+
+### Alternative
+
+If none of the other approaches are working, place the stubs next to the installed open3d files in your current virtual environment or your Python site-package folder.
