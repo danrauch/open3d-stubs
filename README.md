@@ -3,7 +3,7 @@
 Type stubs for Open3D. Work in progress - if types are missing add an Issue.
 Baseline created via [pybind11-stubgen](https://github.com/sizmailov/pybind11-stubgen).
 
-## Install
+## Install (pylance)
 
 ### Specific VS Code project
 
